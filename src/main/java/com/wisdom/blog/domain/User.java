@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Entity
 public class User implements UserDetails, Serializable {
 
     private static final long serialVersionUID = 8109662547712300203L;
