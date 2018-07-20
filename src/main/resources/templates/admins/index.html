@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-<head>
+<head th:replace="~{fragments/header :: header}">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
@@ -18,7 +18,6 @@
             <ul class="list-group blog-menu"th:each="menu : ${model.list}">
                 <a href="javascript:void(0)" class="list-group-item" th:title="${menu.name}" th:text="${menu.name}"
                    data-th-attr="url=${menu.url}">
-                    用户管理
                 </a>
 
             </ul>
@@ -34,5 +33,10 @@
     </div>
 
 </div>
+<div th:replace="~{fragments/footer :: footer}">...</div>
+
+<!-- JavaScript -->
+<script src="../../js/admins/main.js" th:src="@{/js/admins/main.js}"></script>
+
 </body>
 </html>

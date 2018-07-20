@@ -48,5 +48,9 @@ dependencies {
 	// 添加  Apache Commons Lang 依赖
 	compile('org.apache.commons:commons-lang3:3.5')
 
+	// https://mvnrepository.com/artifact/es.nitaur.markdown/txtmark
+	compile group: 'es.nitaur.markdown', name: 'txtmark', version: '0.16'
+
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

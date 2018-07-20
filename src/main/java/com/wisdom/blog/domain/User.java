@@ -86,34 +86,6 @@ public class User implements UserDetails, Serializable {
         this.email = email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public void setAuthorities(List<Authority> authorities) {
-        this.authorities = authorities;
-    }
-
-    public void setEncodePassword(String password) {
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encodePasswd = encoder.encode(password);
-        this.password = encodePasswd;
-    }
-
-
-    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         //  需将 List<Authority> 转成 List<SimpleGrantedAuthority>，否则前端拿不到角色列表名称
         List<SimpleGrantedAuthority> simpleAuthorities = new ArrayList<>();
@@ -123,14 +95,41 @@ public class User implements UserDetails, Serializable {
         return simpleAuthorities;
     }
 
-    @Override
-    public String getPassword() {
-        return null;
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEncodePassword(String password) {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encodePasswd = encoder.encode(password);
+        this.password = encodePasswd;
+    }
+
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     @Override
@@ -151,5 +150,11 @@ public class User implements UserDetails, Serializable {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("User[id=%d, username='%s', name='%s', email='%s', password='%s']", id, username, name, email,
+                password);
     }
 }

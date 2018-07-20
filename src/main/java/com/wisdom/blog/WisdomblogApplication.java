@@ -1,4 +1,4 @@
-package com.wisdom.blog.wisdomblog;
+package com.wisdom.blog;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

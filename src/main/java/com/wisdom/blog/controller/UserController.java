@@ -46,7 +46,7 @@ public class UserController {
 
         model.addAttribute("page",page);
         model.addAttribute("userList",list);
-        return new ModelAndView(async==true?"users/list :: #mainContainerRepleace":"users/list","uesrModel",model);
+        return new ModelAndView(async==true?"users/list :: #mainContainerRepleace":"users/list","userModel",model);
     }
 
     /**
@@ -114,7 +114,7 @@ public class UserController {
     public ModelAndView modifyForm(@PathVariable("id") Long id,Model model){
         User user = userService.getUserById(id);
         model.addAttribute("user",user);
-        return new ModelAndView("user/edit","userModel",model);
+        return new ModelAndView("users/edit","userModel",model);
     }
 
 }
