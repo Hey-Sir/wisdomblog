@@ -1,9 +1,6 @@
 package com.wisdom.blog.service;
 
-import com.wisdom.blog.domain.Blog;
-import com.wisdom.blog.domain.Catalog;
-import com.wisdom.blog.domain.Comment;
-import com.wisdom.blog.domain.User;
+import com.wisdom.blog.domain.*;
 import com.wisdom.blog.repository.BlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -74,6 +71,32 @@ public class BlogServiceImpl implements BlogService {
         Blog originalBlog = blogRepository.getOne(blogId);
         originalBlog.removeComment(commentId);
         blogRepository.save(originalBlog);
+    }
+
+    @Override
+    public Blog createVote(Long blogId) {
+        Blog originalBlog = blogRepository.getOne(blogId);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Vote vote = new Vote(user);
+        boolean isExist = originalBlog.addVote(vote);
+        if(isExist){
+            throw  new IllegalArgumentException("该用户已点过赞");
+        }
+
+        return this.saveBlog(originalBlog);
+    }
+
+    @Override
+    public void removeVote(Long blogId, Long voteId) {
+        Blog originalBlog = blogRepository.getOne(blogId);
+        originalBlog.removeVote(voteId);
+        this.saveBlog(originalBlog);
+    }
+
+    @Override
+    public Page<Blog> listBlogsByCatalog(Catalog catalog, Pageable pageable) {
+        Page<Blog> blogs = blogRepository.findByCatalog(catalog, pageable);
+        return blogs;
     }
 
 }

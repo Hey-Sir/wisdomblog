@@ -5,6 +5,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+@Entity
 public class Catalog implements Serializable{
     private static final long serialVersionUID = 8698197266310902379L;
 

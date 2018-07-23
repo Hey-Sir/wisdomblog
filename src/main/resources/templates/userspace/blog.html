@@ -30,7 +30,7 @@
                     <div class="card-text">
                         <a href="/u/waylau" th:href="'/u/' + ${blogModel.user.username}" class="card-link" th:text="${blogModel.user.username}" >waylau</a> 发表于 [[${#dates.format(blogModel.createTime, 'yyyy-MM-dd HH:mm')}]]
                         <i class="fa fa-eye" aria-hidden="true">[[${blogModel.readSize}]]</i>
-                        <i class="fa fa-heart-o" aria-hidden="true">[[${blogModel.likeSize}]]</i>
+                        <i class="fa fa-heart-o" aria-hidden="true">[[${blogModel.voteSize}]]</i>
                         <i class="fa fa-comment-o" aria-hidden="true">[[${blogModel.commentSize}]]</i>
                         <a href="/u/waylau" th:if="${isBlogOwner}" th:href="'/u/' + ${blogModel.user.username}+ '/blogs/edit/'+ ${blogModel.id}" class="btn btn-primary float-right">编辑</a>
                         <a href="javascript:void(0)" th:if="${isBlogOwner}" th:attr="blogUrl='/u/' + ${blogModel.user.username} + '/blogs/'+ ${blogModel.id}"class="btn btn-primary float-right blog-delete-blog">删除</a>
@@ -44,7 +44,7 @@
                 <div class="card-block">
 
 
-                    <h5>分类：<a href="/u/waylau/blogs?category=11">
+                    <h5>分类：<a th:href="'/u/'+${blogModel.user.username} + '/blogs?catalog='+${blogModel.catalog.id} " th:text="${blogModel.catalog.name}">
                         Spring Data
                     </a></h5>
 
@@ -69,7 +69,8 @@
                         </div>
                     </div>
                     <button class="btn btn-primary float-right" id="submitComment">发表评论</button>
-
+                    <button class="btn btn-primary float-right" th:if="${currentVote} == null" id="submitVote">点赞</button>
+                    <button class="btn btn-primary float-right" th:if="${currentVote}" th:attr="voteId=${currentVote.id}" id="cancelVote">取消点赞</button>
                 </div>
                 <div class="card-block" id="mainContainer">
 
@@ -148,6 +149,7 @@
 <!-- JavaScript -->
 <script th:inline="javascript">
     var blogId = [[${blogModel.id}]];
+    var blogUrl = '/u/' + [[${blogModel.user.username}]] + '/blogs/'+ [[${blogModel.id}]] ;
 </script>
 <script src="../../js/userspace/blog.js" th:src="@{/js/userspace/blog.js}"></script>
 </body>
