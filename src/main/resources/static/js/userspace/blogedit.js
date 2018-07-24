@@ -63,10 +63,13 @@ $(function() {
 		    url: '/u/'+ $(this).attr("userName") + '/blogs/edit',
 		    type: 'POST',
 			contentType: "application/json; charset=utf-8",
-		    data:JSON.stringify({"id":$('#blogId').val(), 
+		    data:JSON.stringify({
+				"id":$('#blogId').val(),
 		    	"title": $('#title').val(), 
-		    	"summary": $('#summary').val() , 
-		    	"content": $('#md').val()}),
+		    	"summary": $('#summary').val() ,
+				"catalog":{"id":$('#catalogSelect').val()},
+		    	"content": $('#md').val(),
+				"tags":$('.form-control-tag').val()}),
 			beforeSend: function(request) {
 			    request.setRequestHeader(csrfHeader, csrfToken); // 添加  CSRF Token 
 			},
@@ -84,5 +87,11 @@ $(function() {
 		     }
 		})
  	})
- 	
+
+    // 初始化标签
+    $('.form-control-tag').tagsInput({
+        'defaultText':'输入标签'
+    });
+
+
 });
