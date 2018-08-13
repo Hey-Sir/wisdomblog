@@ -49,9 +49,6 @@ dependencies {
 	// 添加  Apache Commons Lang 依赖
 	compile('org.apache.commons:commons-lang3:3.5')
 
-	// https://mvnrepository.com/artifact/es.nitaur.markdown/txtmark
-	compile group: 'es.nitaur.markdown', name: 'txtmark', version: '0.16'
-
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-elasticsearch
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-elasticsearch', version: '2.0.3.RELEASE'
 //	compile('org.springframework.boot:spring-boot-starter-data-elasticsearch')
