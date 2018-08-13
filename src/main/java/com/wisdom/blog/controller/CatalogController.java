@@ -44,7 +44,7 @@ public class CatalogController {
         model.addAttribute("isCatalogsOwner",isOwner);
         model.addAttribute("catalogs",catalogs);
 
-        return "/userspace/u :: #catalogRepleace";
+        return "userspace/u :: #catalogRepleace";
     }
 
     @PostMapping
@@ -83,14 +83,14 @@ public class CatalogController {
     public String getCatalogEdit(Model model){
         Catalog catalog = new Catalog(null,null);
         model.addAttribute("catalog",catalog);
-        return "/userspace/catalogedit";
+        return "userspace/catalogedit";
     }
 
     @GetMapping("/edit/{id}")
     public String getCatalogById(@PathVariable("id") Long id,Model model){
         Catalog catalog = catalogService.getCatalogById(id);
         model.addAttribute("catalog",catalog);
-        return "/userspace/catalogedit";
+        return "userspace/catalogedit";
     }
 
 }

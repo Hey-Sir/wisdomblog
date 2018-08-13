@@ -67,7 +67,7 @@ public class BlogController {
             model.addAttribute("users",users);*/
         }
 
-        return (async == true?"/index :: #mainContainerRepleace":"/index");
+        return (async == true?"index :: #mainContainerRepleace":"index");
     }
 
     @GetMapping("/newest")

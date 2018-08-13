@@ -22,6 +22,6 @@ public class AdminController {
         list.add(new Menu("博客管理", "/blogs"));
         list.add(new Menu("评论管理", "/commits"));
         model.addAttribute("list", list);
-        return new ModelAndView("/admins/index", "model", model);
+        return new ModelAndView("admins/index", "model", model);
     }
 }
