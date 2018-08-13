@@ -36,7 +36,7 @@
                         <a href="javascript:void(0)" th:if="${isBlogOwner}" th:attr="blogUrl='/u/' + ${blogModel.user.username} + '/blogs/'+ ${blogModel.id}"class="btn btn-primary float-right blog-delete-blog">删除</a>
                     </div>
                     <hr>
-                    <article class="post-content" th:utext="${blogModel.htmlContent}">
+                    <article class="post-content" th:utext="${blogModel.content}">
 
                     </article>
                     <hr>

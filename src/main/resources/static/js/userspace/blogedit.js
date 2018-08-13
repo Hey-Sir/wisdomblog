@@ -9,7 +9,18 @@
 
 // DOM 加载完再执行
 $(function() {
-	
+    var ue = UE.getEditor('editor');
+
+    UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
+    UE.Editor.prototype.getActionUrl = function(action) {
+        if (action == 'uploadimage' || action == 'uploadscrawl' || action == 'uploadimage') {
+            return 'http://localhost:8080/api/imgupload';
+            //'http://localhost:8080/imgUpload';为方法imgUpload的访问地址
+        } else {
+            return this._bkGetActionUrl.call(this, action);
+        }
+    }
+
 	// 初始化 md 编辑器
     $("#md").markdown({
         language: 'zh',
@@ -58,7 +69,8 @@ $(function() {
 		// 获取 CSRF Token 
 		var csrfToken = $("meta[name='_csrf']").attr("content");
 		var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-		
+
+		var content = ue.getContent();
 		$.ajax({
 		    url: '/u/'+ $(this).attr("userName") + '/blogs/edit',
 		    type: 'POST',
@@ -68,7 +80,7 @@ $(function() {
 		    	"title": $('#title').val(), 
 		    	"summary": $('#summary').val() ,
 				"catalog":{"id":$('#catalogSelect').val()},
-		    	"content": $('#md').val(),
+		    	"content": content,
 				"tags":$('.form-control-tag').val()}),
 			beforeSend: function(request) {
 			    request.setRequestHeader(csrfHeader, csrfToken); // 添加  CSRF Token 

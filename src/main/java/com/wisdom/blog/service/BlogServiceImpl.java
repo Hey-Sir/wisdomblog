@@ -1,7 +1,9 @@
 package com.wisdom.blog.service;
 
 import com.wisdom.blog.domain.*;
+import com.wisdom.blog.domain.es.EsBlog;
 import com.wisdom.blog.repository.BlogRepository;
+import com.wisdom.blog.repository.es.EsBlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,16 +14,33 @@ import org.springframework.stereotype.Service;
 public class BlogServiceImpl implements BlogService {
 
     @Autowired
+    private EsBlogService esBlogService;
+
+    @Autowired
     private BlogRepository blogRepository;
 
+    @Autowired
+    private EsBlogRepository esBlogRepository;
     @Override
     public Blog saveBlog(Blog blog) {
-        return blogRepository.save(blog);
+        boolean isNew = (blog.getId() == null);
+        EsBlog esBlog = null;
+        Blog returnBlog = blogRepository.save(blog);
+        if(isNew){
+            esBlog = new EsBlog(returnBlog);
+        }else {
+            esBlog = esBlogService.getEsBlogByBlogId(blog.getId());
+            esBlog.update(blog);
+        }
+        esBlogService.updateEsBlog(esBlog);
+        return returnBlog;
     }
 
     @Override
     public void removeBlog(Long id) {
         blogRepository.deleteById(id);
+        EsBlog esBlog = esBlogService.getEsBlogByBlogId(id);
+        esBlogService.removeEsBlog(esBlog.getId());
     }
 
     @Override
@@ -53,8 +72,11 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public void readingIncrease(Long id) {
         Blog blog = blogRepository.getOne(id);
-        blog.setReadSize(blog.getCommentSize() + 1);
+        blog.setReadSize(blog.getReadSize() + 1);
         blogRepository.save(blog);
+        EsBlog esBlog = esBlogService.getEsBlogByBlogId(blog.getId());
+        esBlog.setReadSize(esBlog.getReadSize() + 1);
+        esBlogRepository.save(esBlog);
     }
 
     @Override
@@ -63,6 +85,11 @@ public class BlogServiceImpl implements BlogService {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Comment comment = new Comment(user,commentContent);
         originalBlog.addComment(comment);
+
+        EsBlog esBlog = esBlogService.getEsBlogByBlogId(blogId);
+        esBlog.setCommentSize(originalBlog.getCommentSize());
+        esBlogRepository.save(esBlog);
+
         return blogRepository.save(originalBlog);
     }
 
@@ -71,6 +98,10 @@ public class BlogServiceImpl implements BlogService {
         Blog originalBlog = blogRepository.getOne(blogId);
         originalBlog.removeComment(commentId);
         blogRepository.save(originalBlog);
+
+        EsBlog esBlog = esBlogService.getEsBlogByBlogId(blogId);
+        esBlog.setCommentSize(originalBlog.getCommentSize());
+        esBlogRepository.save(esBlog);
     }
 
     @Override
@@ -83,6 +114,8 @@ public class BlogServiceImpl implements BlogService {
             throw  new IllegalArgumentException("该用户已点过赞");
         }
 
+        EsBlog esBlog = esBlogService.getEsBlogByBlogId(blogId);
+        esBlog.setVoteSize(originalBlog.getVoteSize());
         return this.saveBlog(originalBlog);
     }
 
@@ -90,6 +123,9 @@ public class BlogServiceImpl implements BlogService {
     public void removeVote(Long blogId, Long voteId) {
         Blog originalBlog = blogRepository.getOne(blogId);
         originalBlog.removeVote(voteId);
+
+        EsBlog esBlog = esBlogService.getEsBlogByBlogId(blogId);
+        esBlog.setVoteSize(originalBlog.getVoteSize());
         this.saveBlog(originalBlog);
     }
 

@@ -1,6 +1,7 @@
 package com.wisdom.blog.domain;
 
 import com.github.rjeschke.txtmark.Processor;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -10,6 +11,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
+@Document(indexName = "")
 public class Blog implements Serializable {
 
     private static final long serialVersionUID = 54868719966320766L;
@@ -36,17 +38,18 @@ public class Blog implements Serializable {
 
     @Lob  // 大对象，映射 MySQL 的 Long Text 类型
     @Basic(fetch=FetchType.LAZY) // 懒加载
-    @NotEmpty(message = "内容不能为空")
+//    @NotEmpty(message = "内容不能为空")
     @Size(min=2)
-    @Column(nullable = false) // 映射为字段，值不能为空
+//    @Column(nullable = false) // 映射为字段，值不能为空
     private String htmlContent;
 
     @OneToOne(cascade = CascadeType.DETACH,fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(nullable = false) // 映射为字段，值不能为空
-    @org.hibernate.annotations.CreationTimestamp  // 由数据库自动创建时间
+    @Column(nullable = false,updatable = true) // 映射为字段，值不能为空
+//    @org.hibernate.annotations.CreationTimestamp  // 由数据库自动创建时间
+    @org.hibernate.annotations.UpdateTimestamp
     private Timestamp createTime;
 
     @Column(name="readSize")
@@ -115,7 +118,8 @@ public class Blog implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
-        this.htmlContent = Processor.process(content);
+//        this.htmlContent = Processor.process(content);
+        this.htmlContent = content;
     }
 
     public String getHtmlContent() {
