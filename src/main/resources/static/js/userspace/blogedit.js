@@ -14,7 +14,7 @@ $(function() {
     UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
     UE.Editor.prototype.getActionUrl = function(action) {
         if (action == 'uploadimage' || action == 'uploadscrawl' || action == 'uploadimage') {
-            return 'http://localhost:8080/api/imgupload';
+            return 'http://localhost:8080/ueditor/imgupload';
             //'http://localhost:8080/imgUpload';为方法imgUpload的访问地址
         } else {
             return this._bkGetActionUrl.call(this, action);

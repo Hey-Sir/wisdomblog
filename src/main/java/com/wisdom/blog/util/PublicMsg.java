@@ -10,7 +10,7 @@ public class PublicMsg {
             "    \"imageCompressEnable\": true,\n" +
             "    \"imageCompressBorder\": 1600,\n" +
             "    \"imageInsertAlign\": \"none\",\n" +
-            "    \"imageUrlPrefix\": \"http://localhost:8080/api/asset/imageupload/\",\n" +
+            "    \"imageUrlPrefix\": \"http://localhost:8080/api/asset/blogimage/\",\n" +
             "    \"imagePathFormat\": \"{fileName}\",\n" +
             "\n" +
             "    \"scrawlActionName\": \"uploadscrawl\",\n" +

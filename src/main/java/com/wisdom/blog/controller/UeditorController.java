@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/ueditor")
 public class UeditorController {
 
-    @GetMapping("/ueditor")
+    @GetMapping
     public String ueditor(HttpServletRequest request){
         return PublicMsg.UEDITOR_CONFIG;
     }
@@ -26,7 +26,7 @@ public class UeditorController {
         try {
             InputStream inputStream = upfile.getInputStream();
             String fileName = upfile.getOriginalFilename();
-            File upLoadDir = new File("imageupload");
+            File upLoadDir = new File("blogimage");
             if(!upLoadDir.exists()){
                 upLoadDir.mkdir();
             }
@@ -47,14 +47,6 @@ public class UeditorController {
             e.printStackTrace();
         }
         return JSON.toJSONString(ueditor);
-    }
-
-    @RequestMapping("/asset/{dir}/{imageName}")
-    public void showUeditPic(HttpServletResponse response, @PathVariable String dir, @PathVariable String imageName) throws IOException {
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename=" + imageName);
-        IOUtils.copy(new FileInputStream(dir + "/" + imageName),response.getOutputStream());
-        response.flushBuffer();
     }
 
 }

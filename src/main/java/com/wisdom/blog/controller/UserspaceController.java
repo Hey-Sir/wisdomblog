@@ -23,9 +23,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.ConstraintViolationException;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @Controller
@@ -244,10 +249,48 @@ public class UserspaceController {
         String avatarUrl = user.getAvatar();
         User originaUser = userService.getUserById(user.getId());
         originaUser.setAvatar(avatarUrl);
-        userService.saveUser(user);
+        userService.saveUser(originaUser);
 
         return ResponseEntity.ok().body(new Response(true,"处理成功",avatarUrl));
     }
 
-
+    @PostMapping("/{username}/avatarupload")
+    @PreAuthorize("authentication.name.equals(#username)")
+    @ResponseBody
+    public String imgUpload(@PathVariable String username, MultipartFile upFile){
+        String imgPath = "";
+        InputStream ins = null;
+        FileOutputStream fis = null;
+        try {
+            ins = upFile.getInputStream();
+            String fileName = "avatar_" + username + "_" + System.currentTimeMillis();
+            File upLoadDir = new File("avatarimage");
+            if(!upLoadDir.exists()){
+                upLoadDir.mkdir();
+            }
+            File file = new File(upLoadDir.getName() + File.separator + fileName);
+            fis = new FileOutputStream(file);
+            byte[] b = new byte[1024];
+            int len = 0;
+            while ((len = ins.read(b)) != -1 ){
+                fis.write(b,0,len);
+            }
+            fis.flush();
+            imgPath = "http://localhost:8080/api/asset/avatarimage/" + fileName;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try {
+                ins.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                fis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return imgPath;
+    }
 }
