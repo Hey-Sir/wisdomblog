@@ -283,7 +283,7 @@ public class UserspaceController {
                 fis.write(b,0,len);
             }
             fis.flush();
-            imgPath = "http://localhost:8080/api/asset/avatarimage/" + fileName;
+            imgPath = "http://blog.wisdomzone.net:8080/api/asset/avatarimage/" + fileName;
         }catch (Exception e){
             e.printStackTrace();
         }finally {
