@@ -1,6 +1,5 @@
 package com.wisdom.blog.domain;
 
-import com.github.rjeschke.txtmark.Processor;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
