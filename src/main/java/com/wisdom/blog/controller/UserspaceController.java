@@ -1,5 +1,6 @@
 package com.wisdom.blog.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.wisdom.blog.domain.Blog;
 import com.wisdom.blog.domain.Catalog;
 import com.wisdom.blog.domain.User;
@@ -9,6 +10,8 @@ import com.wisdom.blog.service.CatalogService;
 import com.wisdom.blog.service.UserService;
 import com.wisdom.blog.util.ConstraintViolationExceptionHandler;
 import com.wisdom.blog.vo.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -48,6 +51,8 @@ public class UserspaceController {
 
     @Autowired
     private CatalogService catalogService;
+
+    private static Logger logger = LoggerFactory.getLogger(UserspaceController.class);
 
     @GetMapping("/{username}")
     public String userSpace(@PathVariable("username") String username,Model model){
@@ -173,6 +178,8 @@ public class UserspaceController {
     @PostMapping("/{username}/blogs/edit")
     @PreAuthorize("authentication.name.equals(#username)")
     public ResponseEntity<Response> saveBlog(@PathVariable("username") String username, @RequestBody Blog blog) {
+        logger.info("博主:" + username + "-"+ "博客内容:" + JSON.toJSONString(blog));
+
         // 对 Catalog 进行空处理
         if (blog.getCatalog() == null) {
             return ResponseEntity.ok().body(new Response(false,"未选择分类"));
