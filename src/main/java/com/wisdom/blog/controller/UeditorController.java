@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.wisdom.blog.util.PublicMsg;
 import com.wisdom.blog.vo.Ueditor;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +17,8 @@ import java.io.*;
 @RequestMapping("/ueditor")
 public class UeditorController {
 
+    private static Logger logger = LoggerFactory.getLogger(UeditorController.class);
+
     @GetMapping
     public String ueditor(HttpServletRequest request){
         return PublicMsg.UEDITOR_CONFIG;
@@ -22,10 +26,11 @@ public class UeditorController {
 
     @PostMapping("/imgupload")
     public String imgUpload(MultipartFile upfile){
+        logger.info("上传博客图片");
         Ueditor ueditor = new Ueditor();
         try {
             InputStream inputStream = upfile.getInputStream();
-            String fileName = upfile.getOriginalFilename();
+            String fileName = "blogs_" + System.currentTimeMillis();
             File upLoadDir = new File("blogimage");
             if(!upLoadDir.exists()){
                 upLoadDir.mkdir();

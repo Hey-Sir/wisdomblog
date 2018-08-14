@@ -18,7 +18,7 @@
                             <h2 class="card-title">
                                 <span>
                                     <a th:href="'/u/' + ${blog.username}" th:title="${blog.username}">
-                                        <img th:src="${blog.avatar} == null ? '/images/avatar-default.jpg':${blog.avatar}" class="blog-avatar-50">
+                                        <img th:src="${blog.avatar} == null ? 'images/avatar-default.jpg':${blog.avatar}" class="blog-avatar-50">
                                     </a>
                                 </span>
                                 <a class="card-link" th:href="'/u/' + ${blog.username} + '/blogs/'+ ${blog.blogId}" th:title="${blog.title}" th:text="${blog.title}">
