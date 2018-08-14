@@ -30,7 +30,9 @@ public class UeditorController {
         Ueditor ueditor = new Ueditor();
         try {
             InputStream inputStream = upfile.getInputStream();
-            String fileName = "blogs_" + System.currentTimeMillis();
+            String fileName = upfile.getOriginalFilename();
+            String imgFormat = fileName.substring(fileName.indexOf(".") + 1);
+            fileName= "blogs_" + System.currentTimeMillis() + "." + imgFormat;
             File upLoadDir = new File("blogimage");
             if(!upLoadDir.exists()){
                 upLoadDir.mkdir();
