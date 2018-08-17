@@ -7,6 +7,7 @@ import com.wisdom.blog.util.ConstraintViolationExceptionHandler;
 import com.wisdom.blog.vo.CatalogVO;
 import com.wisdom.blog.vo.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -72,7 +73,9 @@ public class CatalogController {
             catalogService.removeCatalog(id);
         }catch (ConstraintViolationException e)  {
             return ResponseEntity.ok().body(new Response(false, ConstraintViolationExceptionHandler.getMessage(e)));
-        } catch (Exception e) {
+        }catch (DataIntegrityViolationException e){
+            return ResponseEntity.ok().body(new Response(false,"请先删除相关的微博"));
+        }catch (Exception e) {
             return ResponseEntity.ok().body(new Response(false, e.getMessage()));
         }
 

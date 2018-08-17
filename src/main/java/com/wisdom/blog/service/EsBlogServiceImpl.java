@@ -58,7 +58,7 @@ public class EsBlogServiceImpl implements EsBlogService {
     public Page<EsBlog> listNewestEsBlogs(String keyword, Pageable pageable) {
         Page<EsBlog> pages = null;
         Sort sort = new Sort(Sort.Direction.DESC,"createTime");
-        if(pageable.getSort() == null){
+        if(pageable.getSort().isUnsorted()){
             pageable = new PageRequest(pageable.getPageNumber(),pageable.getPageSize(),sort);
         }
 
@@ -69,7 +69,7 @@ public class EsBlogServiceImpl implements EsBlogService {
     @Override
     public Page<EsBlog> listHotestEsBlogs(String keyword, Pageable pageable) {
         Sort sort = new Sort(Sort.Direction.DESC,"readSize","commentSize","voteSize","createTime");
-        if (pageable.getSort() == null) {
+        if (pageable.getSort().isUnsorted()) {
             pageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
         }
 
@@ -84,7 +84,7 @@ public class EsBlogServiceImpl implements EsBlogService {
 
     @Override
     public List<EsBlog> listTop5NewestEsBlogs() {
-        Page<EsBlog> page = this.listHotestEsBlogs(EMPTY_KEYWORD, TOP_5_PAGEABLE);
+        Page<EsBlog> page = this.listNewestEsBlogs(EMPTY_KEYWORD, TOP_5_PAGEABLE);
         return page.getContent();
     }
 

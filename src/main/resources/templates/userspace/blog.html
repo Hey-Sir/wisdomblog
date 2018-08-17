@@ -22,9 +22,7 @@
 			                    <img src="/images/avatar-default.jpg" th:src="${blogModel.user.avatar} == null ? '/images/avatar-default.jpg' : ${blogModel.user.avatar}" class="blog-avatar-50">
 			                  </a>
 					        </span>
-                        <a href="/u/waylau/blogs/1" class="card-link" title="waylau"
-                           th:href="'/u/' + ${blogModel.user.username} + '/blogs/'+ ${blogModel.id}"  th:title="${blogModel.user.username}" th:text="${blogModel.title}">
-                            OAuth 2.0 认证的原理与实践
+                        <a class="card-link" th:href="'/u/' + ${blogModel.user.username} + '/blogs/'+ ${blogModel.id}"  th:title="${blogModel.user.username}" th:text="${blogModel.title}">
                         </a>
                     </h2>
                     <div class="card-text">
@@ -107,7 +105,7 @@
                     <h5 class="card-header"><i class="fa fa-connectdevelop" aria-hidden="true"></i> 相关博客</h5>
                     <div class="list-group">
                         <ul class="list-group">
-                            <a href="/u/waylau/blogs/1" class="list-group-item" title="waylau">
+                            <!--<a href="/u/waylau/blogs/1" class="list-group-item" title="waylau">
                                 Spring Data + Thymeleaf 3 + Bootstrap 4 实现分页器
                             </a>
                             <a href="/u/waylau/blogs/1" class="list-group-item" title="waylau">
@@ -122,7 +120,7 @@
 
                             <a href="/u/waylau/blogs/1" class="list-group-item" title="waylau">
                                 使用 Eclipse Checkstyle Plugin
-                            </a>
+                            </a>-->
                         </ul>
                     </div>
 

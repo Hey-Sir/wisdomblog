@@ -13,26 +13,28 @@
 
             <div id="mainContainer">
                 <div id="mainContainerRepleace">
+
                     <div class="card mb-4" th:each="blog : ${blogList}">
-                        <div class="cardd-block">
+                        <div class="card-block">
                             <h2 class="card-title">
                                 <span>
                                     <a th:href="'/u/' + ${blog.username}" th:title="${blog.username}">
-                                        <img th:src="${blog.avatar} == null ? 'images/avatar-default.jpg':${blog.avatar}" class="blog-avatar-50">
+                                        <img th:src="${blog.avatar} == null ? 'images/avatar-default.jpg' : ${blog.avatar}" class="blog-avatar-50">
                                     </a>
                                 </span>
-                                <a class="card-link" th:href="'/u/' + ${blog.username} + '/blogs/'+ ${blog.blogId}" th:title="${blog.title}" th:text="${blog.title}">
-                                </a>
+                                <a class="card-link" th:href="'/u/' + ${blog.username} + '/blogs/' + ${blog.blogId}" th:title="${blog.title}" th:text="${blog.title}"></a>
                             </h2>
                             <p class="card-text" th:text="${blog.summary}"></p>
                             <div class="card-text">
-                                <a th:href="'/u/' + ${blog.username}" class="card-link" th:text="${blog.username}"></a>发表于
+                                <a th:href="'/u/' + ${blog.username}" class="card-link" th:text="${blog.username}"></a>发表于<span th:text="${#dates.format(blog.createTime,'yyyy-MM-dd HH:mm')}"></span>
                                 <i class="fa fa-eye" aria-hidden="true" th:text="${blog.readSize}"></i>
                                 <i class="fa fa-heart-o" aria-hidden="true">[[${blog.voteSize}]]</i>
                                 <i class="fa fa-comment-o" aria-hidden="true">[[${blog.commentSize}]]</i>
                             </div>
                         </div>
                     </div>
+
+                    <div th:replace="~{fragments/page :: page}">...</div>
                 </div>
             </div>
         </div>
@@ -74,6 +76,6 @@
 
 <div th:replace="~{fragments/footer :: footer}">...</div>
 
-<script src></script>
+<script src="js/index.js" th:src="@{js/index.js}"></script>
 </body>
 </html>
