@@ -19,13 +19,13 @@ $(function() {
  
 		// 加载其他模块的页面到右侧工作区
 		 $.ajax({ 
-			 url: url, 
+			 url: url,
 			 success: function(data){
 				 $("#rightContainer").html(data);
-		 },
-		 error : function() {
-		     alert("error");
-		     }
+		        },
+             error : function() {
+                 alert("error");
+                 }
 		 });
 	});
 	
