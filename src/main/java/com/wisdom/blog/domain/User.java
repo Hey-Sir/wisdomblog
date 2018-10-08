@@ -99,6 +99,10 @@ public class User implements UserDetails, Serializable {
         this.authorities = authorities;
     }
 
+    /**
+     * 获取用户名
+     * @return
+     */
     @Override
     public String getUsername() {
         return username;
@@ -108,6 +112,10 @@ public class User implements UserDetails, Serializable {
         this.username = username;
     }
 
+    /**
+     * 获取密码
+     * @return
+     */
     @Override
     public String getPassword() {
         return password;
@@ -117,6 +125,10 @@ public class User implements UserDetails, Serializable {
         this.password = password;
     }
 
+    /**
+     * 设置密码的时候对密码进行加密（加密规则是spring security提供的BCry加密规则）
+     * @param password
+     */
     public void setEncodePassword(String password) {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodePasswd = encoder.encode(password);
@@ -132,21 +144,43 @@ public class User implements UserDetails, Serializable {
         this.avatar = avatar;
     }
 
+    /**
+     * 判断账户是否过期
+     * true 没有过期
+     * false 过期
+     * 这个方法是实现了UserDetails 重写的方法，可以直接返回true定义它为没有过期
+     * 但是也可以根据具体的业务做相关逻辑处理
+     * @return
+     */
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    /**
+     * 判断用户是否被锁定了/冻结
+     * @return
+     */
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    /**
+     * 判断密码是否过期
+     * 同isAccountNonExpired()类似
+     * 可以根据具体业务做具体逻辑，比如30天之后没改过密码就定性为密码过期等等
+     * @return
+     */
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    /**
+     * 判断用户是否可用
+     * @return
+     */
     @Override
     public boolean isEnabled() {
         return true;
